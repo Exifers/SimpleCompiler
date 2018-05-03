@@ -1,8 +1,10 @@
-#include "lexer.hh"
-
 #include <fnmatch.h>
 #include <cstring>
 #include <iostream>
+
+#include <lib/regex/regex.hh>
+
+#include "lexer.hh"
 
 TokenInfo::TokenInfo(std::string name, std::string pattern)
   : name_(name), pattern_(pattern)
@@ -29,7 +31,7 @@ Token::name_get() const {
 
 void
 Lexer::addToken(std::string pattern, std::string name) {
-  TokenInfo tokenInfo = TokenInfo(name, pattern);
+  TokenInfo tokenInfo = TokenInfo(name, "^" + pattern + "$");
   tokensLibrary_.push_back(tokenInfo);
 }
 
