@@ -1,0 +1,32 @@
+= expression =
+
+var a = 12
+var b = 14
+
+if (a + b == 10) {
+  print "hello"
+}
+else {
+  print "goodbye"
+}
+
+= grammar =
+
+= defintions =
+stmt : task to be done
+exp  : task which has a result
+
+prog := { stmt }
+stmt := var id = num
+      | if ( exp ) { prog } [ else { prog } ]
+      | print str
+exp  := exp + exp
+      | exp == exp 
+      | num
+      | id
+
+= tokens =
+var if ( ) { } else print + ==
+id  : [a-zA-Z][a-zA-Z0-9_]*
+num : [+-]?[0-9]+
+str : "[a-zA-Z ]*"

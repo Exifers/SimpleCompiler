@@ -17,6 +17,7 @@ class Token {
   public:
     Token(std::string name, std::string value);
     std::string name_get() const;
+    std::string value_get() const;
   protected:
     std::string name_;
     std::string value_;

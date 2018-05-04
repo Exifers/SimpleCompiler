@@ -29,6 +29,11 @@ Token::name_get() const {
   return name_;
 }
 
+std::string
+Token::value_get() const {
+  return value_;
+}
+
 void
 Lexer::addToken(std::string pattern, std::string name) {
   TokenInfo tokenInfo = TokenInfo(name, "^" + pattern + "$");
