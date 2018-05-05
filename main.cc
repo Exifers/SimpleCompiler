@@ -4,6 +4,7 @@
 #include <visitor/binder/binder.hh>
 #include <visitor/typeChecker/typeChecker.hh>
 #include <visitor/desugar/desugar.hh>
+#include <visitor/assembler/assembler.hh>
 
 #include <iostream>
 #include <fstream>
@@ -61,7 +62,11 @@ int main(int argc, char *argv[]) {
   Desugar desugar = Desugar();
   desugar(*tree);
 
+  Assembler assembler = Assembler();
+  assembler(*tree);
+
   Printer printer = Printer();
+  //printer.showBindings_set(true);
   printer(*tree);
   return 0;
 }

@@ -87,3 +87,13 @@ void
 DefaultVisitor::operator()(CJump& e) {
   e = e;
 }
+
+void
+DefaultVisitor::operator()(Add& e) {
+  e = e;
+}
+
+void
+DefaultVisitor::operator()(Compare& e) {
+  e = e;
+}

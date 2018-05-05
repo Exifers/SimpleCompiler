@@ -83,3 +83,13 @@ void
 Printer::operator()(CJump& e) {
   std::cout << "CJump<" << e.label_get()->uid_get() << ">" << std::endl;
 }
+
+void
+Printer::operator()(Add& e) {
+  std::cout << "Add<" << e.lhs_get() << "," << e.rhs_get() << ">" <<std::endl;
+}
+
+void
+Printer::operator()(Compare& e) {
+  std::cout << "Compare<" << e.lhs_get() << "," << e.rhs_get() << ">" << std::endl;
+}

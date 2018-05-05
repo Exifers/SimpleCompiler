@@ -19,4 +19,6 @@ class DefaultVisitor {
     virtual void operator()(BasicBlock& e);
     virtual void operator()(Jump& e);
     virtual void operator()(CJump& e);
+    virtual void operator()(Add& e);
+    virtual void operator()(Compare& e);
 };

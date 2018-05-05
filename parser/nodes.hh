@@ -89,12 +89,17 @@ class VarDec : public StmtNode {
     VarDec(std::string id, std::string num)
       : id_(id), num_(num)
     {}
+    VarDec()
+      : id_("_" + std::to_string(genVarCount_++)), num_("")
+    {}
     virtual void accept(DefaultVisitor& v) { v(*this); }
     std::string id_get() { return id_; }
     std::string num_get() { return num_; }
+    void num_set(std::string num) { num_ = num; }
   private:
     std::string id_;
     std::string num_;
+    static int genVarCount_;
 };
 
 class IfStmt : public StmtNode {
@@ -183,4 +188,30 @@ class SimpleVar : public ExprNode {
   private:
     std::string name_;
     VarDec *def_ = nullptr;
+};
+
+class Compare : public StmtNode {
+  public:
+    Compare(std::string lhs, std::string rhs)
+      : lhs_(lhs), rhs_(rhs)
+    {}
+    virtual void accept(DefaultVisitor& v) { v(*this); }
+    std::string lhs_get() { return lhs_; }
+    std::string rhs_get() { return rhs_; }
+  private:
+    std::string lhs_;
+    std::string rhs_;
+};
+
+class Add : public StmtNode {
+  public:
+    Add(std::string lhs, std::string rhs)
+      : lhs_(lhs), rhs_(rhs)
+    {}
+    virtual void accept(DefaultVisitor& v) { v(*this); }
+    std::string lhs_get() { return lhs_; }
+    std::string rhs_get() { return rhs_; }
+  private:
+    std::string lhs_;
+    std::string rhs_;
 };
