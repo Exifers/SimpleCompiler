@@ -9,11 +9,22 @@ Assembler::operator()(ProgNode& e) {
   for (int i = 1; i <= initialSize; i++) {
     try {
       Test *test = dynamic_cast<Test*>(stmts[initialSize - i]);
-      if (!test)
+      if (!test) {
+        try {
+          BasicBlock *block = dynamic_cast<BasicBlock*>(stmts[initialSize - i]);
+          if (!block)
+            continue;
+          block->prog_get()->accept(*this);
+        }
+        catch(const std::bad_cast& e) {
+          continue;
+        }
         continue;
+      }
       toFill_ = &stmts;
       fillIndex_ = initialSize - i + 1; /* test is not moving */
       test->cond_get()->accept(*this);
+      stmts.erase(stmts.begin() + initialSize - i);
     }
     catch (const std::bad_cast& e) {
       continue;
