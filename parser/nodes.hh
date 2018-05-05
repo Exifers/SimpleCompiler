@@ -3,6 +3,7 @@
 #include "fwd.hh"
 
 #include <visitor/default.hh>
+#include <visitor/typeChecker/types.hh>
 
 #include <vector>
 #include <string>
@@ -21,6 +22,66 @@ class StmtNode {
     virtual ~StmtNode() = 0;
     virtual void accept(DefaultVisitor& v) { v(*this); }
   private:
+};
+
+class Test : public StmtNode {
+  public:
+    Test(ExprNode *cond)
+      : cond_(cond)
+    {}
+    ExprNode *cond_get() { return cond_; }
+    virtual void accept(DefaultVisitor& v) { v(*this); }
+  private:
+    ExprNode *cond_;
+};
+
+class BasicBlock : public StmtNode {
+  public:
+    BasicBlock(ProgNode *prog)
+      : prog_(prog)
+    {}
+    ProgNode *prog_get() { return prog_; }
+    virtual void accept(DefaultVisitor& v) { v(*this); }
+  private:
+    ProgNode *prog_;
+};
+
+class Label : public StmtNode {
+  public:
+    Label(std::string uid)
+      : uid_(uid)
+    {}
+    Label()
+      : uid_("L" + std::to_string(uidCounter_++))
+    {}
+    std::string uid_get() { return uid_; }
+    virtual void accept(DefaultVisitor& v) { v(*this); }
+  private:
+    std::string uid_;
+    static int uidCounter_;
+};
+
+/** Jump to label if last test succeeded */
+class CJump : public StmtNode {
+  public:
+    CJump(Label *label)
+      : label_(label)
+    {}
+    Label *label_get() { return label_; }
+    virtual void accept(DefaultVisitor& v) { v(*this); }
+  private:
+    Label *label_;
+};
+
+class Jump : public StmtNode {
+  public:
+    Jump(Label *label)
+      : label_(label)
+    {}
+    Label *label_get() { return label_; }
+    virtual void accept(DefaultVisitor& v) { v(*this); }
+  private:
+    Label *label_;
 };
 
 class VarDec : public StmtNode {
@@ -67,7 +128,10 @@ class ExprNode {
   public:
     virtual ~ExprNode() = 0;
     virtual void accept(DefaultVisitor& v) { v(*this); }
-  private:
+    void type_set(enum type type) { type_ = type; }
+    enum type type_get() { return type_; }
+  protected:
+    enum type type_;
 };
 
 class AddExpr : public ExprNode {
@@ -114,6 +178,7 @@ class SimpleVar : public ExprNode {
     {}
     std::string name_get() { return name_; }
     void def_set(VarDec *def) { def_ = def; }
+    VarDec *def_get() { return def_; }
     virtual void accept(DefaultVisitor& v) { v(*this); }
   private:
     std::string name_;

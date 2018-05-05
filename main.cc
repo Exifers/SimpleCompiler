@@ -1,6 +1,9 @@
 #include <lexer/lexer.hh>
 #include <parser/parser.hh>
 #include <visitor/printer/printer.hh>
+#include <visitor/binder/binder.hh>
+#include <visitor/typeChecker/typeChecker.hh>
+#include <visitor/desugar/desugar.hh>
 
 #include <iostream>
 #include <fstream>
@@ -48,7 +51,17 @@ int main(int argc, char *argv[]) {
   Parser p;
   p.tokens_set(v);
   auto tree = p.parse();
-  Printer visitor = Printer();
-  visitor(*tree);
+
+  Binder binder = Binder();
+  binder(*tree);
+
+  TypeChecker typeChecker = TypeChecker();
+  typeChecker(*tree);
+
+  Desugar desugar = Desugar();
+  desugar(*tree);
+
+  Printer printer = Printer();
+  printer(*tree);
   return 0;
 }

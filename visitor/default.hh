@@ -14,4 +14,9 @@ class DefaultVisitor {
     virtual void operator()(IntNode& e);
     virtual void operator()(VarDec& e);
     virtual void operator()(SimpleVar& e);
+    virtual void operator()(Test& e);
+    virtual void operator()(Label& e);
+    virtual void operator()(BasicBlock& e);
+    virtual void operator()(Jump& e);
+    virtual void operator()(CJump& e);
 };

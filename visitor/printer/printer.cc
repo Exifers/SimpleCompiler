@@ -43,10 +43,43 @@ Printer::operator()(IntNode& e) {
 
 void
 Printer::operator()(VarDec& e) {
-  std::cout << "var " << e.id_get() << " = " << e.num_get() << std::endl;
+  std::cout << "var " << e.id_get();
+  if (showBindings_)
+    std::cout << " /*" << &e << "*/";
+  std::cout << " = " << e.num_get() << std::endl;
 }
 
 void
 Printer::operator()(SimpleVar& e) {
-  std::cout << e.name_get() << std::endl;
+  std::cout << e.name_get();
+  if (showBindings_)
+    std::cout << " /*" << e.def_get() << "*/";
+  std::cout << std::endl;
+}
+
+void
+Printer::operator()(Test& e) {
+  std::cout << "Test<";
+  (*e.cond_get()).accept(*this);
+  std::cout << ">" << std::endl;
+}
+
+void
+Printer::operator()(Label& e) {
+  std::cout << "Label<" << e.uid_get() << ">" << std::endl;
+}
+
+void
+Printer::operator()(BasicBlock& e) {
+  (*e.prog_get()).accept(*this);
+}
+
+void
+Printer::operator()(Jump& e) {
+  std::cout << "Jump<" << e.label_get()->uid_get() << ">" << std::endl;
+}
+
+void
+Printer::operator()(CJump& e) {
+  std::cout << "CJump<" << e.label_get()->uid_get() << ">" << std::endl;
 }

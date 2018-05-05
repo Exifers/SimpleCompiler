@@ -13,5 +13,13 @@ class Printer : public DefaultVisitor {
     virtual void operator()(IntNode& e) override;
     virtual void operator()(VarDec& e) override;
     virtual void operator()(SimpleVar& e) override;
+    virtual void operator()(Test& e) override;
+    virtual void operator()(Label& e) override;
+    virtual void operator()(BasicBlock& e) override;
+    virtual void operator()(Jump& e) override;
+    virtual void operator()(CJump& e) override;
+
+    void showBindings_set(bool val) { showBindings_ = val; }
   private:
+    bool showBindings_ = false;
 };
